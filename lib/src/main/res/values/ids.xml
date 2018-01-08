@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- the supplied load ID, used by View.getTag(int) -->
+    <item name="ic_deco_id" type="id"/>
+
+</resources>
