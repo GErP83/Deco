@@ -1,9 +1,19 @@
 # Deco
 
-Deco is tiny library for android image handling. Not use any 3rd party library, it has zero dependencies, has no other layers, not working of top of some other library. It has a 28,1 kB size and has 168 methods only.
+Deco is tiny library for android image loading and caching. Not use any 3rd party library, it has zero dependencies. It has a 17,4 kB size and has 134 methods only.
 
 ## What it can do
-TODO
+
+- can cache dowloaded images to private storage or to application-specific directory on the primary shared/external storage
+- can set cache size if the app needs more
+- can set cache policy, there is 3x type
+- can crop image to circle and can set relative position too
+- can crop image to rounded cornered rectangle with different corners
+- can add a stroke to the image
+- can add custom http headers fot downloading
+- all the options can be setted for one image or for all images
+- tint mode
+- almost everything can be set from xml as well
   
 ## Requirements:
 Android api 4.3+ and permissions:
@@ -16,7 +26,17 @@ TODO
 ```
 
 ## Examples
-TODO
+
+Simple loading
+```
+@Override 
+public void onCreate(Bundle savedInstanceState) {
+  
+  ImageView imageView = (ImageView) findViewById(R.id.imageView);
+  imageView.get("http://some_image_url");
+}
+```
+
 
 ## Lisence
 
