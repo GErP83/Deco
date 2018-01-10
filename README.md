@@ -27,7 +27,15 @@ TODO
 
 ## Examples
 
-Simple loading
+Simple loading, you also set for every image:
+- corners for rectangle crop
+- crop to circle with relative position
+- stroke width and color
+- tint and color
+- cache policy
+- http headers
+- trust all https
+
 ```
 @Override 
 public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +43,20 @@ public void onCreate(Bundle savedInstanceState) {
   ImageView imageView = (ImageView) findViewById(R.id.imageView);
   imageView.get("http://some_image_url");
 }
+```
+
+From XML you can set: cropToCircle, circlePosition, topLeftCornerRadius, topRightCornerRadius, bottomRightCornerRadius, bottomLeftCornerRadius, stroke_color, stroke_width tintedMode and tintColor.
+
+```
+<com.gerp83.deco.DecoView
+  android:id="@+id/decoView"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:adjustViewBounds="true"
+  android:scaleType="centerCrop"
+  android:layout_margin="30dp"
+  app:tintedMode="true"
+/>
 ```
 
 
