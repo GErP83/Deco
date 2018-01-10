@@ -10,7 +10,7 @@ Deco is tiny library for android image loading and caching. Not use any 3rd part
 - can crop image to circle and can set relative position too
 - can crop image to rounded cornered rectangle with different corners
 - can add a stroke to the image
-- can add custom http headers fot downloading
+- can add custom http headers for downloading
 - all the options can be setted for one image or for all images
 - tint mode
 - almost everything can be set from xml as well
@@ -59,6 +59,34 @@ From XML you can set: cropToCircle, circlePosition, topLeftCornerRadius, topRigh
 />
 ```
 
+With DecoOptions you can set options for all the images. Options:
+- storage type
+- cache size
+- call all https trusted
+- add http headers
+- cache policy
+
+```
+public class TestApplication extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        DecoOptions.getInstance(getApplicationContext())
+                .setImageSizeBound(getApplicationContext(), 1024)
+                .setCacheSize(getApplicationContext(), DecoOptions.DEFAULT_CACHE_SIZE)
+                .setCachePolicy(getApplicationContext(), DecoOptions.CACHE_POLICY_NORMAL)
+                .setStorageType(getApplicationContext(), DecoOptions.STORAGE_EXTERNAL);
+
+    }
+
+}
+```
+
+Planned updates:
+- gif and/or webP support
+- animations
 
 ## Lisence
 
