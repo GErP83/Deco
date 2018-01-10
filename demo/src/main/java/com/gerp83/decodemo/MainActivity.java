@@ -36,17 +36,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*
-    DONE
-    - make circle to crop canvas not bitmap
-    - make border work for circle and for corners too with canvas
-    - caching to private or external cache
-    - setup manager
-    - onClick tint option
-    - request cache-control header
-
-    TODO:
-    - gif and/or webP support
-    */
-
 }

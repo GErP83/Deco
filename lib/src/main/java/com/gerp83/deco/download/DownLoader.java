@@ -2,7 +2,6 @@ package com.gerp83.deco.download;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import com.gerp83.deco.DecoOptions;
 import com.gerp83.deco.utils.FileUtils;
@@ -167,7 +166,7 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
     }
 
     @Override
-    public int compareTo(@NonNull DownLoader imageDownLoader) {
+    public int compareTo(DownLoader imageDownLoader) {
         return Long.valueOf(imageDownLoader.when).compareTo(when);
     }
 

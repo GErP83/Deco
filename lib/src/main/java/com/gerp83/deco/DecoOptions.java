@@ -169,7 +169,7 @@ public class DecoOptions {
      * @param context Context for SharedPreferences
      * @param pairs String pairs for headers
      */
-    public DecoOptions addHeadersForAll(Context context, Set<String> pairs) {
+    public DecoOptions setHeadersForAll(Context context, Set<String> pairs) {
         if(context == null || pairs == null || pairs.size() == 0 || pairs.size() % 2 != 0) {
             return this;
         }

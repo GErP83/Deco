@@ -6,7 +6,7 @@ import com.gerp83.deco.DecoOptions;
 
 /**
  * Created by GErP83
- * a class for init an LruCache
+ * a class for init an LruCacheCopy
  */
 public class Cache extends LRU<String> {
 

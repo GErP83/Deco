@@ -12,11 +12,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.DrawableRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 
 import com.gerp83.deco.cache.Cache;
 import com.gerp83.deco.download.DownLoadManager;
@@ -25,7 +23,6 @@ import com.gerp83.deco.download.DownloadListener;
 import com.gerp83.deco.utils.CanvasUtils;
 import com.gerp83.deco.utils.CropCircle;
 import com.gerp83.deco.utils.FileUtils;
-import com.gerp83.deco.utils.GeneralUtils;
 import com.gerp83.deco.utils.ImageUtils;
 
 import java.io.File;
@@ -37,7 +34,7 @@ import java.util.Set;
  * Created by GErP83
  * custom ImageView class which loads an image from net for itself, and store it in private storage and handle image cache
  */
-public class DecoView extends AppCompatImageView {
+public class DecoView extends ImageView {
 
     private String fileName;
     private ReadyListener readyListener;
@@ -107,7 +104,7 @@ public class DecoView extends AppCompatImageView {
                 }
             }
         }
-        float density = GeneralUtils.getDisplayDensity(context);
+        float density = ImageUtils.getDisplayDensity(context);
 
         strokeColor = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DecoView, defStyleAttr, 0).getColor(R.styleable.DecoView_stroke_color, 0);
         strokeWidth = context.getTheme().obtainStyledAttributes(attrs, R.styleable.DecoView, defStyleAttr, 0).getDimension(R.styleable.DecoView_stroke_width, 0) * density;
@@ -159,7 +156,7 @@ public class DecoView extends AppCompatImageView {
     /**
      * crop to cropToCircle
      */
-    public void cropToCircle() {
+    public void setCropToCircle() {
         cropToCircle = true;
         circlePosition = DecoOptions.CIRCLE_CENTRE;
         invalidate();
@@ -168,7 +165,7 @@ public class DecoView extends AppCompatImageView {
     /**
      * crop to cropToCircle with position
      */
-    public void cropToCircle(int circlePosition) {
+    public void setCropToCircle(int circlePosition) {
         cropToCircle = true;
         this.circlePosition = circlePosition;
         invalidate();
@@ -248,7 +245,7 @@ public class DecoView extends AppCompatImageView {
      *
      * @param headers http headers for download, example authorization headers
      */
-    public void addHeaders(Map<String, String> headers) {
+    public void setHeaders(Map<String, String> headers) {
         this.headers = headers;
     }
 
@@ -341,7 +338,7 @@ public class DecoView extends AppCompatImageView {
      * @param url                  image url
      * @param defaultDrawableResId drawable resource id for default image
      */
-    public void get(final String url, @DrawableRes int defaultDrawableResId) {
+    public void get(final String url, int defaultDrawableResId) {
         get(url, null, defaultDrawableResId);
     }
 
@@ -352,7 +349,7 @@ public class DecoView extends AppCompatImageView {
      * @param name                 name for the cache
      * @param defaultDrawableResId drawable resource id for default image
      */
-    public void get(final String url, String name, @DrawableRes int defaultDrawableResId) {
+    public void get(final String url, String name, int defaultDrawableResId) {
         if (url == null || url.length() == 0) {
             return;
         }
@@ -362,7 +359,7 @@ public class DecoView extends AppCompatImageView {
             fileName = name;
         }
         if (defaultDrawableResId != 0) {
-            setImageDrawable(ContextCompat.getDrawable(getContext(), defaultDrawableResId));
+            setImageDrawable(getContext().getResources().getDrawable(defaultDrawableResId));
         }
         if (FileUtils.get().hasFile(getContext(), fileName) && cachePolicy != DecoOptions.CACHE_POLICY_NONE) {
 

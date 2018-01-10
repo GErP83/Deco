@@ -62,15 +62,11 @@ public class FileUtils {
      * delete a file from the storage
      */
     public boolean deleteFile(Context context, String fileName) {
-        if(context == null || fileName == null) {
+        if (context == null || fileName == null) {
             return false;
         }
         File file = new File(getDirectory(context), fileName);
-        if(file.exists()) {
-            return file.delete();
-        } else {
-            return false;
-        }
+        return file.exists() && file.delete();
     }
 
     /**

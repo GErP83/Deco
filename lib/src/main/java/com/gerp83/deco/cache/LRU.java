@@ -1,20 +1,20 @@
 package com.gerp83.deco.cache;
 
 import android.graphics.Bitmap;
-import android.support.v4.util.LruCache;
+import android.support.v4.util.LruCacheCopy;
 
 /**
  * Created by GErP83
- * a class for store bitmaps in LruCache
+ * a class for store bitmaps in LruCacheCopy
  */
 public abstract class LRU<T> {
 
-    private LruCache<T, Bitmap> bitmaps = null;
+    private LruCacheCopy<T, Bitmap> bitmaps = null;
 
     LRU(int maxSize) {
         super();
         System.out.println(maxSize);
-        bitmaps = new LruCache<T, Bitmap>(maxSize) {
+        bitmaps = new LruCacheCopy<T, Bitmap>(maxSize) {
             @Override
             protected int sizeOf(T key, Bitmap value) {
                 return value.getRowBytes() * value.getHeight();
@@ -29,7 +29,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * add a Bitmap to LruCache
+     * add a Bitmap to LruCacheCopy
      *
      * @param key    key to identify
      * @param bitmap bitmap to store
@@ -41,7 +41,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * remove a Bitmap from LruCache
+     * remove a Bitmap from LruCacheCopy
      *
      * @param key key to identify
      */
@@ -52,7 +52,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * check a Bitmap in LruCache
+     * check a Bitmap in LruCacheCopy
      *
      * @param key key to identify
      */
@@ -61,7 +61,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * get a Bitmap size from LruCache
+     * get a Bitmap size from LruCacheCopy
      *
      * @param key key to identify
      */
@@ -77,7 +77,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * loads a Bitmap from LruCache
+     * loads a Bitmap from LruCacheCopy
      *
      * @param key key to identify
      */
@@ -89,7 +89,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * loads a Bitmap from LruCache with scale
+     * loads a Bitmap from LruCacheCopy with scale
      *
      * @param key   key to identify
      * @param scale the returned bitmap will scaled with this value
@@ -102,7 +102,7 @@ public abstract class LRU<T> {
     }
 
     /**
-     * clear LruCache
+     * clear LruCacheCopy
      */
     public void clearCache() {
         bitmaps.evictAll();

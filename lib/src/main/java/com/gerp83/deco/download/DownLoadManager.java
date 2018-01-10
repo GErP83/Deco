@@ -93,9 +93,7 @@ public class DownLoadManager {
      * @return a new unique ID
      */
     public int getNewID() {
-        synchronized (counter) {
-            return counter++;
-        }
+        return counter++;
     }
 
 }

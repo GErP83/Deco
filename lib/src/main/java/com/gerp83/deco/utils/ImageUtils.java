@@ -1,6 +1,9 @@
 package com.gerp83.deco.utils;
 
+import android.content.Context;
 import android.media.ExifInterface;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -18,6 +21,22 @@ public class ImageUtils {
     public static final int BMP = 3;
     public static final int GIF = 4;
 
+
+    /**
+     * Returns the screen's density.
+     *
+     * @param context Context for getting screen metrics.
+     * @return The screen's density.
+     */
+    public static float getDisplayDensity(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(metrics);
+        return metrics.densityDpi <= DisplayMetrics.DENSITY_DEFAULT ? metrics.density : (metrics.density / 2);
+    }
+
+    /**
+     * get image type from header
+     * */
     public static int getImageType(File file) {
         try {
             RandomAccessFile raf = new RandomAccessFile(file, "r");
@@ -29,7 +48,7 @@ public class ImageUtils {
                 return JPG;
             } else if (header == 0x424D) {                      // BMP
                 return BMP;
-            } else if (header == (('G' << 8) | ('I' << 0))) {   // GIF
+            } else if (header == (('G' << 8) | ('I'))) {   // GIF
                 return GIF;
             } else {
                 return UNKNOWN;
