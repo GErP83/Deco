@@ -22,7 +22,7 @@ Android api 4.3+ and permissions:
 ```
 Add to dependencies:
 ```
-TODO
+compile 'com.github.gerp83:Deco:1.00'
 ```
 
 ## Examples
