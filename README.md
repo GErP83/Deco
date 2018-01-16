@@ -7,6 +7,7 @@ Deco is tiny library for android image loading and caching. Not use any 3rd part
 - can cache dowloaded images to private storage or to application-specific directory on the primary shared/external storage
 - can set cache size if the app needs more
 - can set cache policy, there is 3x type
+- can set read and connection timeout for all images
 - can crop image to circle and can set relative position too
 - can crop image to rounded cornered rectangle with different corners
 - can add a stroke to the image
@@ -22,7 +23,7 @@ Android api 4.3+ and permissions:
 ```
 Add to dependencies:
 ```
-compile 'com.github.gerp83:Deco:1.00'
+compile 'com.github.gerp83:Deco:1.01'
 ```
 
 ## Examples
@@ -62,6 +63,8 @@ From XML you can set: cropToCircle, circlePosition, topLeftCornerRadius, topRigh
 With DecoOptions you can set options for all the images. Options:
 - storage type
 - cache size
+- read and connection timeout
+- switch exception logs on/off
 - call all https trusted
 - add http headers
 - cache policy
