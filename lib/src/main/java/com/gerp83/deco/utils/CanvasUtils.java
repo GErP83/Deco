@@ -94,7 +94,7 @@ public class CanvasUtils {
      * @param bottomLeftRadius  the bottom left radius
      * @param bottomRightRadius the bottom right radius
      */
-    public static Path cropRoundedRect(Canvas canvas, float topLeftRadius, float topRightRadius, float bottomLeftRadius, float bottomRightRadius) {
+    public static void cropRoundedRect(Canvas canvas, float topLeftRadius, float topRightRadius, float bottomLeftRadius, float bottomRightRadius) {
 
         topLeftRadius = topLeftRadius < 0 ? 0 : topLeftRadius;
         topRightRadius = topRightRadius < 0 ? 0 : topRightRadius;
@@ -102,6 +102,45 @@ public class CanvasUtils {
         bottomRightRadius = bottomRightRadius < 0 ? 0 : bottomRightRadius;
 
         RectF rect = new RectF(0, 0, canvas.getWidth(), canvas.getHeight());
+        createPath(rect, canvas, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius);
+    }
+
+    /**
+     * draws a round path over the canvas, when the view is cropped with a rounded path
+     *
+     * @param canvas        Canvas to draw
+     * @param strokeWidth   stroke width
+     * @param strokeColor   stroke color
+     * @param topLeftRadius     top left radius
+     * @param topRightRadius    top right radius
+     * @param bottomLeftRadius  the bottom left radius
+     * @param bottomRightRadius the bottom right radius
+     */
+    public static void drawRoundStrokeOverCanvas(
+            Canvas canvas,
+            float strokeWidth,
+            int strokeColor,
+            float topLeftRadius,
+            float topRightRadius,
+            float bottomLeftRadius,
+            float bottomRightRadius
+    ) {
+        if (strokeWidth > 0) {
+
+            RectF rect = new RectF(0, 0, canvas.getWidth(), canvas.getHeight());
+            Path path = createPath(rect, canvas, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius);
+
+            Paint strokePaint = new Paint();
+            strokePaint.setColor(strokeColor);
+            strokePaint.setAntiAlias(true);
+            strokePaint.setStyle(Paint.Style.STROKE);
+            strokePaint.setStrokeWidth(strokeWidth * 2);
+            canvas.drawPath(path, strokePaint);
+        }
+    }
+
+    private static Path createPath(RectF rect, Canvas canvas, float topLeftRadius, float topRightRadius, float bottomLeftRadius, float bottomRightRadius) {
+
         Path path = new Path();
 
         path.moveTo(rect.left + topLeftRadius / 2, rect.top);
@@ -117,25 +156,6 @@ public class CanvasUtils {
 
         canvas.clipPath(path);
         return path;
-    }
-
-    /**
-     * draws a round path over the canvas, when the view is cropped with a rounded path
-     *
-     * @param canvas        Canvas to draw
-     * @param path          stroke path
-     * @param strokeWidth   stroke width
-     * @param strokeColor   stroke color
-     */
-    public static void drawRoundStrokeOverCanvas(Canvas canvas, Path path, float strokeWidth, int strokeColor) {
-        if (strokeWidth > 0 && path != null) {
-            Paint strokePaint = new Paint();
-            strokePaint.setColor(strokeColor);
-            strokePaint.setAntiAlias(true);
-            strokePaint.setStyle(Paint.Style.STROKE);
-            strokePaint.setStrokeWidth(strokeWidth);
-            canvas.drawPath(path, strokePaint);
-        }
     }
 
 }

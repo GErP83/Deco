@@ -64,8 +64,8 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
 
             urlConnection.setDoInput(true);
             urlConnection.setUseCaches(false);
-            urlConnection.setConnectTimeout(5000);
-            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(DecoOptions.getInstance(context).getConnectionTimeout());
+            urlConnection.setReadTimeout(DecoOptions.getInstance(context).getReadTimeout());
             if (headers != null) {
                 for (String key : headers.keySet()) {
                     urlConnection.setRequestProperty(key, headers.get(key));
@@ -136,7 +136,9 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
             }
 
         } catch (Throwable e) {
-            e.printStackTrace();
+            if(DecoOptions.getInstance(context).getExceptionLogs()) {
+                e.printStackTrace();
+            }
             DownLoadManager.getInstance().removeJob(tagId);
         }
 

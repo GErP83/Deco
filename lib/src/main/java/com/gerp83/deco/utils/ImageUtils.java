@@ -5,6 +5,8 @@ import android.media.ExifInterface;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
+import com.gerp83.deco.DecoOptions;
+
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.util.UUID;
@@ -63,7 +65,7 @@ public class ImageUtils {
     /**
      * get image rotation from exif
      * */
-    public static int getImageRotation(String path) {
+    public static int getImageRotation(Context context, String path) {
         int rotation = 0;
         try {
             ExifInterface exif = new ExifInterface(path);
@@ -76,7 +78,9 @@ public class ImageUtils {
                 rotation = 270;
             }
         } catch (Throwable e) {
-            e.printStackTrace();
+            if(DecoOptions.getInstance(context).getExceptionLogs()) {
+                e.printStackTrace();
+            }
         }
         return rotation;
     }

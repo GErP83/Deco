@@ -1,11 +1,14 @@
 package com.gerp83.decodemo;
 
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.gerp83.deco.DecoView;
+import com.gerp83.deco.utils.FileUtils;
 
 /**
  * Created by gerp83
@@ -13,27 +16,32 @@ import com.gerp83.deco.DecoView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DecoView decoView;
+    private RecyclerView recyclerView;
+    private TestAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
-        decoView = findViewById(R.id.decoView);
+        FileUtils.get().deleteAll(this);
 
-        //decoView.setStroke(20, Color.parseColor("#ff0000"));
-        //decoView.setCorners(0, 40, 80, 120);
+        recyclerView = findViewById(R.id.recyclerView);
 
-        decoView.get("http://farm3.staticflickr.com/2674/3714839394_273ec19445_b.jpg");
-        //decoView.get("https://media.giphy.com/media/l3q2yQ5lJqg6RMWFq/giphy.gif");
+        adapter = new TestAdapter();
 
-        /*decoView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });*/
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration());
+    }
 
+    private class DividerItemDecoration extends RecyclerView.ItemDecoration {
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            outRect.bottom = 15;
+
+        }
     }
 
 }

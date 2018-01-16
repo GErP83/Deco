@@ -136,11 +136,10 @@ public class DecoView extends ImageView {
         }
 
         CropCircle cropCircle = null;
-        Path cropPath = null;
         if(cropToCircle) {
             cropCircle = CanvasUtils.cropCircle(canvas, circlePosition);
         } else {
-            cropPath = CanvasUtils.cropRoundedRect(canvas, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius);
+            CanvasUtils.cropRoundedRect(canvas, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius);
         }
 
         super.onDraw(canvas);
@@ -148,7 +147,7 @@ public class DecoView extends ImageView {
         if(cropToCircle) {
             CanvasUtils.drawCircleStrokeOverCanvas(canvas, cropCircle, strokeWidth, strokeColor);
         } else {
-            CanvasUtils.drawRoundStrokeOverCanvas(canvas, cropPath, strokeWidth, strokeColor);
+            CanvasUtils.drawRoundStrokeOverCanvas(canvas, strokeWidth, strokeColor, topLeftRadius, topRightRadius, bottomLeftRadius, bottomRightRadius);
         }
 
     }
@@ -163,10 +162,32 @@ public class DecoView extends ImageView {
     }
 
     /**
+     * crop to cropToCircle
+     * @param needCrop need crop or not
+     */
+    public void setCropToCircle(boolean needCrop) {
+        cropToCircle = needCrop;
+        circlePosition = DecoOptions.CIRCLE_CENTRE;
+        invalidate();
+    }
+
+    /**
      * crop to cropToCircle with position
+     * @param circlePosition relative position of the circle
      */
     public void setCropToCircle(int circlePosition) {
         cropToCircle = true;
+        this.circlePosition = circlePosition;
+        invalidate();
+    }
+
+    /**
+     * crop to cropToCircle with position
+     * @param needCrop need crop or not
+     * @param circlePosition relative position of the circle
+     */
+    public void setCropToCircle(boolean needCrop, int circlePosition) {
+        cropToCircle = needCrop;
         this.circlePosition = circlePosition;
         invalidate();
     }
@@ -385,7 +406,9 @@ public class DecoView extends ImageView {
                         addBitmap();
 
                     } catch (Throwable e) {
-                        e.printStackTrace();
+                        if(DecoOptions.getInstance(getContext()).getExceptionLogs()) {
+                            e.printStackTrace();
+                        }
                     }
                 } else {
                     addBitmap();
@@ -436,7 +459,7 @@ public class DecoView extends ImageView {
             }
         }
         int inSampleSize = scale < 2 ? 1 : ImageUtils.roundToNextPowerOfTwo((int) scale);
-        int rotation = ImageUtils.getImageRotation(path);
+        int rotation = ImageUtils.getImageRotation(getContext(), path);
 
         BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inSampleSize = inSampleSize;
@@ -449,7 +472,9 @@ public class DecoView extends ImageView {
                     Cache.getInstance(getContext()).addBitmapToCache(name, bmp);
                 } else {
                     setImageBitmap(null);
-                    throw new Exception("Bitmap decode error");
+                    if(DecoOptions.getInstance(getContext()).getExceptionLogs()) {
+                        throw new Exception("Bitmap decode error");
+                    }
                 }
 
             } else {
@@ -463,8 +488,10 @@ public class DecoView extends ImageView {
                 setImageBitmap(Cache.getInstance(getContext()).getBitmapFromCache(name));
             }
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Throwable e) {
+            if(DecoOptions.getInstance(getContext()).getExceptionLogs()) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -483,8 +510,10 @@ public class DecoView extends ImageView {
                     try {
                         addToFileCache();
                         addBitmap();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Throwable e) {
+                        if(DecoOptions.getInstance(getContext()).getExceptionLogs()) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });

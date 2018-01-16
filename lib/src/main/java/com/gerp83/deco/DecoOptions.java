@@ -12,14 +12,19 @@ import java.util.Set;
 
 public class DecoOptions {
 
+    private static final String PREFS_NEED_EXCEPTION_LOGS = "deco_need_exception_logs";
     private static final String PREFS_IMAGE_SIZE_BOUND = "deco_image_size_bound";
     private static final String PREFS_STORAGE_TYPE = "deco_storage_type";
     private static final String PREFS_CACHE_SIZE = "deco_cache_size";
     private static final String PREFS_TRUSTED = "deco_trusted";
     private static final String PREFS_HEADERS = "deco_headers";
     private static final String PREFS_CACHE_POLICY = "deco_cache_policy";
+    private static final String PREFS_TIMEOUT_CONNECTION = "deco_timeout_connection";
+    private static final String PREFS_TIMEOUT_READ = "deco_timeout_read";
 
     private static final int DEFAULT_IMAGE_SIZE_BOUND = 1024;
+    private static final int CONNECTION_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 10000;
 
     /**
      * if an image was downloaded and cached before, no download needed again
@@ -66,6 +71,31 @@ public class DecoOptions {
 
     private DecoOptions(Context context) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+
+    /**
+     * set exception logs
+     *
+     * @param context Context for SharedPreferences
+     * @param value value for show exception logs
+     */
+    public DecoOptions setExceptionLogs(Context context, boolean value) {
+        if(context == null) {
+            return this;
+        }
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(PREFS_NEED_EXCEPTION_LOGS, value);
+        editor.apply();
+        return this;
+    }
+
+    /**
+     * get exception logs
+     *
+     */
+    public boolean getExceptionLogs() {
+        return sharedPreferences.getBoolean(PREFS_NEED_EXCEPTION_LOGS, false);
     }
 
     /**
@@ -210,6 +240,50 @@ public class DecoOptions {
      */
     public int getCachePolicy() {
         return sharedPreferences.getInt(PREFS_CACHE_POLICY, CACHE_POLICY_NORMAL);
+    }
+
+    /**
+     * set connection timeout
+     *
+     * @param context Context for SharedPreferences
+     * @param value value for connection timeout
+     */
+    public DecoOptions setConnectionTimeout(Context context, int value) {
+        if(context == null || value < 0) {
+            return this;
+        }
+        setInt(PREFS_TIMEOUT_CONNECTION, value);
+        return this;
+    }
+
+    /**
+     * get connection timeout
+     *
+     */
+    public int getConnectionTimeout() {
+        return sharedPreferences.getInt(PREFS_TIMEOUT_CONNECTION, CONNECTION_TIMEOUT);
+    }
+
+    /**
+     * set read timeout
+     *
+     * @param context Context for SharedPreferences
+     * @param value value for read timeout
+     */
+    public DecoOptions setReadTimeout(Context context, int value) {
+        if(context == null || value < 0) {
+            return this;
+        }
+        setInt(PREFS_TIMEOUT_READ, value);
+        return this;
+    }
+
+    /**
+     * get read timeout
+     *
+     */
+    public int getReadTimeout() {
+        return sharedPreferences.getInt(PREFS_TIMEOUT_READ, READ_TIMEOUT);
     }
 
     private void setInt(String key, int value) {
