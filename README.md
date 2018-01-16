@@ -1,6 +1,6 @@
 # Deco
 
-Deco is tiny library for android image loading and caching. Not use any 3rd party library, it has zero dependencies. It has a 17,4 kB size and has 134 methods only.
+Deco is tiny library for android image loading and caching. Not use any 3rd party library, it has zero dependencies. It has a 18,6 kB size and has 143 methods only.
 
 ## What it can do
 
@@ -78,6 +78,9 @@ public class TestApplication extends Application {
 
         DecoOptions.getInstance(getApplicationContext())
                 .setImageSizeBound(getApplicationContext(), 1024)
+                .setConnectionTimeout(getApplicationContext(), 30000)
+                .setReadTimeout(getApplicationContext(), 10000)
+                .setExceptionLogs(getApplicationContext(), false)
                 .setCacheSize(getApplicationContext(), DecoOptions.DEFAULT_CACHE_SIZE)
                 .setCachePolicy(getApplicationContext(), DecoOptions.CACHE_POLICY_NORMAL)
                 .setStorageType(getApplicationContext(), DecoOptions.STORAGE_EXTERNAL);
