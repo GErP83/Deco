@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Map;
 
@@ -34,8 +33,8 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
     private String fileName;
     private int tagId;
 
-    private Map<String, String> headers = null;
-    private boolean trustAllHttps = false;
+    private Map<String, String> headers;
+    private boolean trustAllHttps;
     private final long when = System.nanoTime();
 
     public DownLoader(Context context, int tagId, String url, String fileName, DownloadListener downloadListener, boolean trustAllHttps, Map<String, String> headers) {
@@ -98,7 +97,7 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
             //check for Cache-Control header if policy needed it
             if(cachePolicy == DecoOptions.CACHE_POLICY_HEADER && cacheControl != null) {
                 String [] cut = cacheControl.split("=");
-                if(cut != null && cut.length == 2) {
+                if(cut.length == 2) {
                     maxAge = Integer.valueOf(cut[1]) * 1000;
                 }
             }
@@ -113,6 +112,7 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
                 }
 
                 InputStream inputStream = urlConnection.getInputStream();
+                //noinspection CatchMayIgnoreException
                 try {
                     inputStream.reset();
                 } catch (Throwable e) {
@@ -157,9 +157,9 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
             SSLContext context = SSLContext.getInstance("TLS");
             context.init(null, new X509TrustManager[]{new X509TrustManager(){
                 @SuppressLint ("TrustAllX509TrustManager")
-                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+                public void checkClientTrusted(X509Certificate[] chain, String authType) {}
                 @SuppressLint ("TrustAllX509TrustManager")
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {}
+                public void checkServerTrusted(X509Certificate[] chain, String authType) {}
                 public X509Certificate[] getAcceptedIssuers() {return new X509Certificate[0];}}}, new SecureRandom());
             HttpsURLConnection.setDefaultSSLSocketFactory(context.getSocketFactory());
         } catch (Exception e) {
@@ -169,7 +169,7 @@ public class DownLoader implements Runnable ,Comparable<DownLoader> {
 
     @Override
     public int compareTo(DownLoader imageDownLoader) {
-        return Long.valueOf(imageDownLoader.when).compareTo(when);
+        return Long.compare(imageDownLoader.when, when);
     }
 
 }

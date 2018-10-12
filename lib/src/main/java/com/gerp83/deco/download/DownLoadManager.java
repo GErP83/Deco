@@ -64,9 +64,7 @@ public class DownLoadManager {
      */
     public void removeJob(int id){
         synchronized (jobs) {
-            if (jobs.containsKey(id)) {
-                jobs.remove(id);
-            }
+            jobs.remove(id);
         }
     }
 

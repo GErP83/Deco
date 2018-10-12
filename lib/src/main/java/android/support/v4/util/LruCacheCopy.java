@@ -16,6 +16,8 @@
 
 package android.support.v4.util;
 
+import android.annotation.SuppressLint;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -334,6 +336,7 @@ public class LruCacheCopy<K, V> {
         return new LinkedHashMap<>(map);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override public synchronized final String toString() {
         int accesses = hitCount + missCount;
         int hitPercent = accesses != 0 ? (100 * hitCount / accesses) : 0;
