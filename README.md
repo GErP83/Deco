@@ -1,3 +1,6 @@
+I do not support this anymore, it is only for showcase. I recommend to use [Glide](https://github.com/bumptech/glide), [Picasso](https://square.github.io/picasso/) or [Fresco](https://github.com/facebook/fresco/).
+
+
 # Deco
 
 Deco is tiny library for android image loading and caching. Not use any 3rd party library, it has zero dependencies. It has a 18,6 kB size and has 143 methods only.
